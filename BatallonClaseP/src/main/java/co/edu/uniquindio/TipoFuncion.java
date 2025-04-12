@@ -1,7 +1,7 @@
 package co.edu.uniquindio;
 
 public enum TipoFuncion {
-    LOGISTICA ("Logística"),
+    LOGISTICA("Logística"),
     COMUNICACIONES ("Comunicativa"),
     MEDICO("Primeros Auxilios");
 

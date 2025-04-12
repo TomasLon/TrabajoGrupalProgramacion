@@ -19,6 +19,11 @@ public class Batallon {
         this.nombre = nombre;
         this.id = id;
         this.soldados = new LinkedList<>();
+        this.listMisiones = new LinkedList<>();
+    }
+
+    public LinkedList<Mision> getMisiones() {
+        return listMisiones;
     }
 
     //Unifica la lista de todos los vehiculos (esto para verificaciones y demás)
@@ -431,7 +436,7 @@ public class Batallon {
                     "\n1.Médica\n2.Logística\n3.Comunicaciones"));
             switch (option) {
                 case 1 -> especializacion = AreaEspecializacion.MEDICO;
-                case 2 -> especializacion = AreaEspecializacion.LOGISITCA;
+                case 2 -> especializacion = AreaEspecializacion.LOGISTICA;
                 case 3 -> especializacion = AreaEspecializacion.COMUNICACIONES;
         }
     }
@@ -459,25 +464,14 @@ public class Batallon {
     }
 
 
-    // TRABAJO EN CLASE
+
+
+
+//              ------------TRABAJO GRUPAL EN CLASE---------------
+
 //    Asignar soldado a una misión
-//    Agrega un soldado a la lista de personal de una misión si está disponible. Cambia su estado a no disponible.
-//    Liberar soldados al finalizar una misión
-//    Recorre todos los soldados de una misión y márcalos como disponibles una vez que la misión haya terminado.
-//    Buscar soldados por especialidad
-//    Retorna una lista con todos los soldados que tienen una especialidad específica (por ejemplo, "Médico" o "Comunicaciones").
-//    Obtener soldados disponibles por rango
-//    Dado un rango (por ejemplo, “Cabo”), retorna todos los soldados disponibles que tengan ese rango.
-//    Calcular edad promedio del personal
-//    Calcula y retorna la edad promedio de los soldados registrados en el batallón.
-//    Buscar soldado por ID
-//    Implementa un metodo para obtener un soldado específico dado su ID único.
 
-
-
-    //Carlos
     public Soldado asignarSoldadoMision(){
-        //Agrega un soldado a la lista de personal de una misión si está disponible. Cambia su estado a no disponible.
         Soldado soldadoAsignar = null;
         for (Soldado soldadoDisponible : soldados){
             if(!soldadoDisponible.isEstaEnMision()){
@@ -489,17 +483,22 @@ public class Batallon {
         return null;
     }
 
-    //Recorre todos los soldados de una misión y márcalos como disponibles una vez que la misión haya terminado.
-    public void liberarMisionSoldados(Mision mision){
-        for (Soldado soldadoLiberar : mision.getPersonal()){
-            soldadoLiberar.setEstaEnMision(false);
+//    Liberar soldados al finalizar una misión
+
+    public void liberarMisionSoldados(Mision mision) {
+        if (mision == null || mision.getPersonal() == null) {
+            JOptionPane.showMessageDialog(null, "Misión nula o sin personal. No se puede liberar.");
+            return;
         }
+        for (Soldado soldado : mision.getPersonal()) {
+            soldado.setEstaEnMision(false);
+        }
+        JOptionPane.showMessageDialog(null,"Todos los soldados de la misión fueron liberados.");
     }
-    //----------------- Tomas
 
 
-    //  3. Buscar soldados por especialidad
-    //  Retorna una lista con todos los soldados que tienen una especialidad específica (por ejemplo, "Médico" o "Comunicaciones").
+//    Buscar soldados por especialidad
+
     public LinkedList<Soldado> buscarSoldadosEspecializados(AreaEspecializacion especializacion){
         LinkedList<Soldado> soldadosEspecializados = new LinkedList<>();
         for (Soldado soldado : soldados) {
@@ -510,9 +509,8 @@ public class Batallon {
         return soldadosEspecializados;
     }
 
+//    Obtener soldados disponibles por rango
 
-    // 4. Obtener soldados disponibles por rango
-   // Dado un rango (por ejemplo, “Cabo”), retorna todos los soldados disponibles que tengan ese rango.
     public LinkedList<Soldado> buscarSoldadosDisponibles(RangoMilitar rangoMilitar) {
         LinkedList<Soldado> soldadosDisponibles = new LinkedList<>();
         for (Soldado soldado : soldados) {
@@ -523,12 +521,8 @@ public class Batallon {
         return soldadosDisponibles;
     }
 
+//    Calcular edad promedio del personal
 
-
-
-    //Juan
-
-    //calcular edad promedio de edad
     public double calcularEdadPromedio(){
         int edadTotal = 0;
         for (Soldado soldado : soldados) {
@@ -536,7 +530,9 @@ public class Batallon {
         }
         return (double) edadTotal / soldados.size();
     }
-    //buscar soldado por id
+
+//    Buscar soldado por ID
+
     public Soldado buscarSoldado(String idSoldado) {
         for (Soldado soldado : soldados) {
             if (idSoldado.equals(soldado.getId())){

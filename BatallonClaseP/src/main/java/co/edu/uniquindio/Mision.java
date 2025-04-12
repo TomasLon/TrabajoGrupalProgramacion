@@ -1,7 +1,7 @@
 package co.edu.uniquindio;
+
 import java.time.LocalDate;
 import java.util.LinkedList;
-
 
 public class Mision {
 
@@ -11,11 +11,18 @@ public class Mision {
     private String ubicacion;
     private Vehiculo vehiculo;
 
+    // Constructor principal (sin personal)
     public Mision(String id, LocalDate fecha, String ubicacion) {
         this.id = id;
         this.fecha = fecha;
         this.ubicacion = ubicacion;
+        this.personal = new LinkedList<>();
+    }
 
+    // Constructor alternativo (con personal)
+    public Mision(String id, LocalDate fecha, String ubicacion, LinkedList<Soldado> personal) {
+        this(id, fecha, ubicacion);
+        this.personal = personal;
     }
 
     public String getId() {
@@ -35,6 +42,9 @@ public class Mision {
     }
 
     public LinkedList<Soldado> getPersonal() {
+        if (personal == null) {
+            personal = new LinkedList<>();
+        }
         return personal;
     }
 
@@ -42,13 +52,16 @@ public class Mision {
         this.personal = personal;
     }
 
-
     public String getUbicacion() {
         return ubicacion;
     }
 
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
+    }
+
+    public Vehiculo getVehiculo() {
+        return vehiculo;
     }
 
     public void setVehiculo(Vehiculo vehiculo) {

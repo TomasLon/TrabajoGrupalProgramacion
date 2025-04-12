@@ -3,7 +3,7 @@ package co.edu.uniquindio;
 public enum AreaEspecializacion {
     MEDICO("Médico"),
     COMUNICACIONES("Comunicaciones"),
-    LOGISITCA("Logística");
+    LOGISTICA("Logística");
 
     public final String especializacion;
 

@@ -262,9 +262,12 @@ public class Batallon {
     //Registra una misión y la vincula con un vehiculo
     public boolean registrarMision(LocalDate fechaMision, String ubicacionMision, String idVehiculoMision, LinkedList personal) {
         Boolean flag = false;
+        Soldado soldadoMision = asignarSoldadoMision();
+        if (soldadoMision == null){
+            return false;
+        }
         String cantMisionesActuales = String.valueOf(vehiculos.size() + 1);
         Mision newMision = new Mision(cantMisionesActuales, fechaMision, ubicacionMision);
-        Soldado soldadoMision = asignarSoldadoMision();
         LinkedList<Soldado> personalMision = new LinkedList<>();
         personalMision.add(soldadoMision);
         newMision.setPersonal(personalMision);
@@ -476,13 +479,22 @@ public class Batallon {
     public Soldado asignarSoldadoMision(){
         //Agrega un soldado a la lista de personal de una misión si está disponible. Cambia su estado a no disponible.
         Soldado soldadoAsignar = null;
+        for (Soldado soldadoDisponible : soldados){
+            if(!soldadoDisponible.isEstaEnMision()){
+                soldadoAsignar = soldadoDisponible;
+                soldadoDisponible.setEstaEnMision(true);
+                return soldadoAsignar;
+            }
         }
+        return null;
     }
 
-
-
-
-
+    //Recorre todos los soldados de una misión y márcalos como disponibles una vez que la misión haya terminado.
+    public void liberarMisionSoldados(Mision mision){
+        for (Soldado soldadoLiberar : mision.getPersonal()){
+            soldadoLiberar.setEstaEnMision(false);
+        }
+    }
     //----------------- Tomas
 
 

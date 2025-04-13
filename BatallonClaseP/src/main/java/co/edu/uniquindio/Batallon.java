@@ -524,11 +524,11 @@ public class Batallon {
 //    Calcular edad promedio del personal
 
     public double calcularEdadPromedio(){
-        int edadTotal = 0;
+        double edadTotal = 0;
         for (Soldado soldado : soldados) {
             edadTotal += soldado.getEdad();
         }
-        return (double) edadTotal / soldados.size();
+        return edadTotal / soldados.size();
     }
 
 //    Buscar soldado por ID

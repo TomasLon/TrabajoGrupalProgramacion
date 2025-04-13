@@ -1,4 +1,5 @@
-import co.edu.uniquindio.*;
+package co.edu.uniquindio;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -8,9 +9,9 @@ import java.util.LinkedList;
 import java.util.logging.Logger;
 
 
-public class testbatallon {
+class BatallonTest {
 
-    private static final Logger LOG = Logger.getLogger(testbatallon.class.getName());
+    private static final Logger LOG = Logger.getLogger(BatallonTest.class.getName());
 
     private Batallon batallon;
 
@@ -82,6 +83,32 @@ public class testbatallon {
             assertFalse(soldado.isEstaEnMision(), "El soldado " + soldado.getNombreCompleto() + " debería estar liberado de la misión 1");
         }
 
+    }
+
+    @Test
+    void buscarSoldadoPorId(){
+        LOG.info("Inicio test: buscar soldado por id");
+        batallon = new Batallon("la 6ta", "123");
+        Soldado soldado1 = new Soldado("123", "nombre", RangoMilitar.SOLDADO, AreaEspecializacion.MEDICO, 22, false);
+        batallon.agregarSoldado(soldado1);
+        Soldado soldado2 = batallon.buscarSoldado(soldado1.getId());
+        assertEquals(soldado1, soldado2);
+        LOG.info("Fin test: buscar soldado por id");
+    }
+
+    @Test
+    void calcularEdadPromedio() {
+        LOG.info("Inicio test: calcularEdadPromedio");
+        batallon = new Batallon("la 6ta", "123");
+        Soldado soldado1 = new Soldado("1", "nombre", RangoMilitar.SOLDADO, AreaEspecializacion.COMUNICACIONES, 22, false);
+        Soldado soldado2 = new Soldado("2", "nombre", RangoMilitar.SOLDADO, AreaEspecializacion.COMUNICACIONES, 30, false);
+        Soldado soldado3 = new Soldado("3", "nombre", RangoMilitar.SOLDADO, AreaEspecializacion.COMUNICACIONES, 24, false);
+        batallon.agregarSoldado(soldado1);
+        batallon.agregarSoldado(soldado2);
+        batallon.agregarSoldado(soldado3);
+        double edadPromedio = (double) (soldado1.getEdad() + soldado2.getEdad() + soldado3.getEdad()) /3;
+        assertEquals(batallon.calcularEdadPromedio(), edadPromedio, 0.01); //0.01 siendo la tolerancia para similitud entre ambas medidas
+        LOG.info("Fin test: calcularEdadPromedio");
     }
 
 }

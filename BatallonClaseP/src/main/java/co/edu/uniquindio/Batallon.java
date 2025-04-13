@@ -492,8 +492,8 @@ public class Batallon {
         }
         for (Soldado soldado : mision.getPersonal()) {
             soldado.setEstaEnMision(false);
+            mision.setPersonal(null);
         }
-        JOptionPane.showMessageDialog(null,"Todos los soldados de la misión fueron liberados.");
     }
 
 

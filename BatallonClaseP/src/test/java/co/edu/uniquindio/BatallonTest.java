@@ -2,6 +2,9 @@ package co.edu.uniquindio;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import javax.swing.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
@@ -25,7 +28,7 @@ class BatallonTest {
         // Agregar soldados al batallón
         batallon.getSoldados().add(new Soldado("001", "Carlos", RangoMilitar.CABO, AreaEspecializacion.MEDICO, 25, false));
         batallon.getSoldados().add(new Soldado("002", "Luis", RangoMilitar.CABO, AreaEspecializacion.MEDICO, 30, true)); // En misión
-        batallon.getSoldados().add(new Soldado("003", "Pedro", RangoMilitar.CABO, AreaEspecializacion.LOGISTICA, 28, false));
+        batallon.getSoldados().add(new Soldado("003", "Pedro", RangoMilitar.CABO, AreaEspecializacion.LOGISTICA, 28, true)); //En misión
         batallon.getSoldados().add(new Soldado("004", "Juan", RangoMilitar.CABO, AreaEspecializacion.LOGISTICA, 28, true)); // En misión
         batallon.getSoldados().add(new Soldado("005", "Ana", RangoMilitar.SOLDADO, AreaEspecializacion.COMUNICACIONES, 24, false));
         batallon.getSoldados().add(new Soldado("006", "María", RangoMilitar.SOLDADO, AreaEspecializacion.MEDICO, 22, true)); // En misión
@@ -50,14 +53,14 @@ class BatallonTest {
     void testCantidadSoldadosPorEspecialidad() {
         LOG.info("Inicio test: cantidad de soldados por especialidad");
         LinkedList<Soldado> medicos = batallon.buscarSoldadosEspecializados(AreaEspecializacion.MEDICO);
-        assertEquals(2, medicos.size());
+        assertEquals(3, medicos.size());
     }
 
     @Test
     void testCantidadSoldadosPorRangoMilitar() {
         LOG.info("Inicio test: cantidad de soldados por rango militar");
         LinkedList<Soldado> soldadosCabo = batallon.buscarSoldadosDisponibles(RangoMilitar.CABO);
-        assertEquals(3, soldadosCabo.size());
+        assertEquals(2, soldadosCabo.size());
     }
 
     @Test
@@ -75,14 +78,18 @@ class BatallonTest {
     @Test
     void liberarMisionSoldados() {
         LOG.info("Inicio test: liberar soldados de una misión");
+        LinkedList<Soldado> soldadosLibres = new LinkedList<>();
+        Mision misionLiberar = batallon.getMisiones().getFirst();  // Misión 1
 
-        Mision mision1 = batallon.getMisiones().getFirst();  // Misión 1
-
-        batallon.liberarMisionSoldados(mision1);
-        for (Soldado soldado : mision1.getPersonal()) {
-            assertFalse(soldado.isEstaEnMision(), "El soldado " + soldado.getNombreCompleto() + " debería estar liberado de la misión 1");
+        batallon.liberarMisionSoldados(misionLiberar);
+        for (Soldado soldadoLiberado : misionLiberar.getPersonal()) {
+            if (!soldadoLiberado.isEstaEnMision()) {
+                soldadosLibres.add(soldadoLiberado);
+            }
+            assertFalse(soldadoLiberado.isEstaEnMision());
+            assertEquals(2, soldadosLibres.size());
+            assertNull(misionLiberar.getPersonal());
         }
-
     }
 
     @Test
